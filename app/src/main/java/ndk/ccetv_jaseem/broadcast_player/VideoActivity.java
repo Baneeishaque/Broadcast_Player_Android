@@ -10,9 +10,11 @@ import android.widget.VideoView;
 
 public class VideoActivity extends AppCompatActivity {
 
+    private static final String TAG = "Broadcast Player";
     private VideoView vv;
     int[] videoArray = {R.raw.v1, R.raw.v2, R.raw.v3};
     int videoIndex = 0;
+    private int stopPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +41,24 @@ public class VideoActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onPause() {
+        stopPosition = vv.getCurrentPosition(); //stopPosition is an int
+        vv.pause();
+        Log.d(TAG, "onPause called");
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume called");
+        vv.seekTo(stopPosition);
+        vv.start(); //Or use resume() if it doesn't work. I'm not sure
+    }
+
     private void playVideo(int localVideoIndex) {
-        Log.d("Broadcast Player", "Video Index : " + localVideoIndex);
+        Log.d(TAG, "Video Index : " + localVideoIndex);
         Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + videoArray[localVideoIndex]);
         vv.setVideoURI(videoUri);
         vv.start();
