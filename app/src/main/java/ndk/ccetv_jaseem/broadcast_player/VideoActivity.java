@@ -21,7 +21,13 @@ public class VideoActivity extends AppCompatActivity {
         vv.start();
     }
 
-//    public void start(View view) {
+//    @Override
+//    protected void onStart() {
+//        vv.resume();
+//        super.onStart();
+//    }
+
+    //    public void start(View view) {
 //        vv.start();
 //    }
 //
