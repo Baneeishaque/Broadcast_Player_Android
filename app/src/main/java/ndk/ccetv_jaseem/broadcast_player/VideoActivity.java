@@ -3,7 +3,6 @@ package ndk.ccetv_jaseem.broadcast_player;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.VideoView;
 
 public class VideoActivity extends AppCompatActivity {
@@ -19,13 +18,14 @@ public class VideoActivity extends AppCompatActivity {
         vv = findViewById(R.id.videoView);
         Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.a);
         vv.setVideoURI(videoUri);
-    }
-
-    public void start(View view) {
         vv.start();
     }
 
-    public void stop(View view) {
-        vv.stopPlayback();
-    }
+//    public void start(View view) {
+//        vv.start();
+//    }
+//
+//    public void stop(View view) {
+//        vv.stopPlayback();
+//    }
 }
