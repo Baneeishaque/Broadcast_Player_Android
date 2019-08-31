@@ -1,5 +1,6 @@
 package ndk.ccetv_jaseem.broadcast_player;
 
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,8 @@ import android.widget.VideoView;
 public class VideoActivity extends AppCompatActivity {
 
     private VideoView vv;
+    int[] videoArray = {R.raw.v1, R.raw.v2, R.raw.v3};
+    int videoIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,7 +19,23 @@ public class VideoActivity extends AppCompatActivity {
         setContentView(R.layout.video_activity);
 
         vv = findViewById(R.id.videoView);
-        Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.a);
+
+        playVideo(videoIndex);
+
+        vv.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                if (!(videoIndex < videoArray.length)) {
+                    videoIndex = 0;
+                    playVideo(videoIndex);
+                }
+                playVideo(++videoIndex);
+            }
+        });
+    }
+
+    private void playVideo(int localVideoIndex) {
+        Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + videoArray[localVideoIndex]);
         vv.setVideoURI(videoUri);
         vv.start();
     }
