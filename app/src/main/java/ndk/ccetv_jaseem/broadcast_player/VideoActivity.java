@@ -4,6 +4,8 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.WindowManager;
 import android.widget.VideoView;
 
 public class VideoActivity extends AppCompatActivity {
@@ -18,6 +20,8 @@ public class VideoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.video_activity);
 
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         vv = findViewById(R.id.videoView);
 
         playVideo(videoIndex);
@@ -25,16 +29,18 @@ public class VideoActivity extends AppCompatActivity {
         vv.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
+
+                videoIndex++;
                 if (!(videoIndex < videoArray.length)) {
                     videoIndex = 0;
-                    playVideo(videoIndex);
                 }
-                playVideo(++videoIndex);
+                playVideo(videoIndex);
             }
         });
     }
 
     private void playVideo(int localVideoIndex) {
+        Log.d("Broadcast Player", "Video Index : " + localVideoIndex);
         Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + videoArray[localVideoIndex]);
         vv.setVideoURI(videoUri);
         vv.start();
